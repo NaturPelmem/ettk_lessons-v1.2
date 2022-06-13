@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %} Расписание {% endblock title %}
+
+{% block content %}
+    <div class="row">
+        <div class="col text-center">
+            <form class="form-row" action="{% url 'main_page' %}" method="get">
+                {#                Поле выбора Препода или группы#}
+                <select class="js-selectize" name="search" placeholder="Введите преподавателя,группу или кабинет">
+                    <option value=""></option>
+                    <optgroup label="Преподаватели">
+                        {% for teach in teacher_name %}
+                            <option value="{{ teach.last_name }}">{{ teach.last_name }}</option>
+                        {% endfor %}
+                    </optgroup>
+                    <optgroup label="Группы">
+                        {% for group in group_name %}
+                            <option value="{{ group.group_name }}">{{ group.group_name }}</option>
+                        {% endfor %}
+                    </optgroup>
+                    <optgroup label="Кабинет">
+                        {% for cabinet in cabinet_name %}
+                            <option value="{{ cabinet.cabinet_name }}">{{ cabinet.cabinet_name }}</option>
+                        {% endfor %}
+                    </optgroup>
+                </select>
+                <button type="submit">Поисk</button>
+            </form>
+            <button type="button" class="themetoggle btn btn-them btn-floating">
+                <span class="material-icons">light_mode</span>
+            </button>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Номер пары</th>
+                    <th scope="col">Дата пары</th>
+                    <th scope="col">Группа</th>
+                    <th scope="col">Преподаватель</th>
+                    <th scope="col">Кабинет</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for timetable in timetable %}
+                    <tr>
+                        <td>{{ timetable.number }}</td>
+                        <td>{{ timetable.date }}</td>
+                        <td>{{ timetable.group.group_name }}</td>
+                        <td>{{ timetable.teacher.last_name }}</td>
+                        <td>{{ timetable.cabinet.cabinet_name }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock content %}
